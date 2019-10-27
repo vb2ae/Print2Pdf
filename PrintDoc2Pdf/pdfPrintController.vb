@@ -1,7 +1,7 @@
 ﻿Imports System.Drawing
 Imports PrintDoc2Pdf.sharpPDF
 
-Friend Class PdfPrintController
+Public Class PdfPrintController
     Inherits Printing.PrintController
     Dim pdf As pdfDocument
     Dim bm As Image
