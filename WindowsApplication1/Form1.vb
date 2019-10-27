@@ -1,4 +1,4 @@
-﻿Imports System.Data.SqlClient
+﻿Imports System.Data.SQLite
 Imports PrintDoc2Pdf
 
 Public Class Form1
@@ -28,16 +28,15 @@ Public Class Form1
 
     Private Sub Form1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Dim strConn As String
-        Dim conn As SqlConnection
-        Dim da As SqlDataAdapter
+        Dim conn As SQLiteConnection
+        Dim da As SQLiteDataAdapter
 
-        strConn = "Server = .\SQLEXPRESS;"
-        strConn &= "Database = Northwind; Integrated Security = SSPI;"
-        conn = New SqlConnection(strConn)
-        da = New SqlDataAdapter("Select ProductName, UnitPrice From Products", conn)
-        da.Fill(ds, "Products")
+        strConn = "Data Source=Northwind_small.db;"
+        conn = New SQLiteConnection(strConn)
+        da = New SQLiteDataAdapter("Select ProductName, UnitPrice From Product", conn)
+        da.Fill(ds, "Product")
 
-        DataGridView1.DataSource = ds.Tables("Products")
+        DataGridView1.DataSource = ds.Tables("Product")
     End Sub
 
 
@@ -53,13 +52,13 @@ Public Class Form1
         Dim iLinesPerPage As Integer = iPageHeight \ iFntHeight - 15
         Dim yPos As Integer = 0
         Dim iTop As Integer
-        Dim iMax As Integer = ds.Tables("Products").Rows.Count
+        Dim iMax As Integer = ds.Tables("Product").Rows.Count
         Dim strDescription As String
         Dim x As Integer
         Dim xPos As Integer
         Dim strPrice As String
         Dim fntTitle As Font = New Font("Microsoft Sans Serf", 14)
-        Dim iCount As Integer = ds.Tables("Products").Rows.Count
+        Dim iCount As Integer = ds.Tables("Product").Rows.Count
         Dim strDate As String = Trim(Now.ToLongDateString)
         Dim sf As New StringFormat
         sf.Alignment = StringAlignment.Far
@@ -84,7 +83,7 @@ Public Class Form1
 
         For x = 0 To iLinesPerPage
             If iRecord < iMax Then
-                With ds.Tables("Products").Rows(iRecord)
+                With ds.Tables("Product").Rows(iRecord)
                     strDescription = .Item("ProductName").ToString
                     strPrice = Convert.ToDecimal(.Item("UnitPrice")).ToString("c")
                 End With
